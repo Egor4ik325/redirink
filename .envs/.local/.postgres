@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=redirink
+POSTGRES_USER=YmHTjcwkAYlhKHNtyzRHwIokVQXVndSc
+POSTGRES_PASSWORD=WsemEHi01mPYoRA7UUdlVCes8czEuqAD0NPR1YYklQQoHRbg5pgMgVcSX1U8UG3u
