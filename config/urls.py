@@ -23,8 +23,9 @@ urlpatterns = [
 urlpatterns += [
     # API base url
     path("api/", include("config.api_router")),
-    # DRF auth token
-    path("auth-token/", obtain_auth_token),
+    # DRF auth token endpoints
+    path("auth/", include("dj_rest_auth.urls")),
+    path("auth/signup/", include("dj_rest_auth.registration.urls")),
 ]
 
 if settings.DEBUG:
