@@ -1,15 +1,15 @@
-import shortuuid
-from rest_framework import filters, status, viewsets
+from rest_framework import decorators, filters, status, viewsets
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import AllowAny
+from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.schemas.openapi import AutoSchema
 
-from redirink.links.models import Link
+from redirink.links.models import Link, link_uuid_alphabet, link_uuid_length
 from redirink.links.pagination import LinkPagination
 from redirink.links.permissions import LinkPermission
 from redirink.links.serializers import LinkSerializer
-
-link_uuid_length = Link._meta.get_field("uuid").length
-link_uuid_alphabet = Link._meta.get_field("uuid").alphabet or shortuuid.get_alphabet()
 
 
 class LinkViewSet(viewsets.ModelViewSet):
@@ -50,3 +50,20 @@ class LinkViewSet(viewsets.ModelViewSet):
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
+
+
+@decorators.api_view(["GET"])
+@decorators.authentication_classes([])
+@decorators.permission_classes([AllowAny])
+@decorators.throttle_classes([])
+@decorators.schema(AutoSchema)
+def link_redirect_view(request: Request, pk: str):
+    """
+    Redirect to the link's `to_url` URL from short UUID.
+    """
+
+    link = get_object_or_404(Link, pk=pk)
+    return Response(
+        status=status.HTTP_301_MOVED_PERMANENTLY,
+        headers={"Location": link.to_url},
+    )

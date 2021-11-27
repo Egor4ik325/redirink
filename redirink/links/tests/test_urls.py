@@ -28,3 +28,21 @@ def test_links_detail_lookup_invalid_length():
 def test_links_detail_lookup_invalid_alphabet():
     with pytest.raises(Resolver404):
         resolve("/api/links/abcde0fg/")
+
+
+def test_link_redirect_url():
+    assert reverse("links:redirect", kwargs={"pk": "abcdefgh"}) == "/abcdefgh/"
+    assert resolve("/abcdefgh/").view_name == "links:redirect"
+
+
+# Negative cases
+
+
+def test_link_redirect_url_7_length():
+    with pytest.raises(Resolver404):
+        resolve("/abcdefg/")
+
+
+def test_link_redirect_url_contains_1():
+    with pytest.raises(Resolver404):
+        resolve("/abcde1gh/")

@@ -1,3 +1,4 @@
+import shortuuid
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
@@ -41,3 +42,7 @@ class Link(models.Model):
 
     def get_absolute_url(self):
         return reverse("links:detail", kwargs={"pk": self.pk})
+
+
+link_uuid_alphabet = Link._meta.get_field("uuid").alphabet or shortuuid.get_alphabet()
+link_uuid_length = Link._meta.get_field("uuid").length

@@ -32,3 +32,22 @@ def test_link_create_is_201(api_client, user, token, link_data):
     response = api_client.post(reverse("api:link-list"), data=link_data)
 
     assert response.status_code == 201
+
+
+# Redirect API/MVT endpoints/routes
+
+
+def test_client_request_link_response_should_be_redirect_301_without_auth(
+    api_client, link
+):
+    response = api_client.get(reverse("links:redirect", kwargs={"pk": link.pk}))
+
+    assert response.status_code == 301
+
+
+def test_client_request_link_response_should_be_redirect_to_link_url_to(
+    api_client, link
+):
+    response = api_client.get(reverse("links:redirect", kwargs={"pk": link.pk}))
+
+    assert response.headers["Location"] == link.to_url

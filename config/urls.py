@@ -1,7 +1,8 @@
+from allauth.account.views import confirm_email
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 
@@ -23,7 +24,12 @@ urlpatterns = [
 urlpatterns += [
     # API base url
     path("api/", include("config.api_router")),
-    # DRF auth token endpoints
+    # DRF/allauth token endpoints
+    re_path(
+        r"^auth/signup/account-confirm-email/(?P<key>.+)/$",
+        confirm_email,
+        name="account_confirm_email",
+    ),
     path("auth/", include("dj_rest_auth.urls")),
     path("auth/signup/", include("dj_rest_auth.registration.urls")),
 ]
@@ -54,3 +60,8 @@ if settings.DEBUG:
         import debug_toolbar
 
         urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
+
+# Generic URLs
+urlpatterns += [
+    path("", include("redirink.links.urls", namespace="links")),
+]
