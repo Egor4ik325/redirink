@@ -11,11 +11,7 @@ from django.urls import reverse
 from redirink.users.forms import UserChangeForm
 from redirink.users.models import User
 from redirink.users.tests.factories import UserFactory
-from redirink.users.views import (
-    UserRedirectView,
-    UserUpdateView,
-    user_detail_view,
-)
+from redirink.users.views import UserRedirectView, UserUpdateView, user_detail_view
 
 pytestmark = pytest.mark.django_db
 
