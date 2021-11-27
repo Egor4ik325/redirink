@@ -23,11 +23,6 @@ class Link(models.Model):
     to_url = models.URLField(_("To URL"), max_length=200)
     create_time = models.DateTimeField(_("Create time"), auto_now_add=True)
 
-    @property
-    def from_url(self):
-        # return reverse("links:redirect", kwargs={"pk": self.pk})
-        return "TODO"
-
     class Meta:
         verbose_name = _("Redirect link")
         verbose_name_plural = _("Redirect links")

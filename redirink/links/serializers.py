@@ -1,3 +1,4 @@
+from django.urls import reverse
 from rest_framework import serializers
 
 from redirink.links.models import Link
@@ -9,6 +10,7 @@ class LinkSerializer(serializers.ModelSerializer):
     """
 
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    from_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Link
@@ -20,3 +22,8 @@ class LinkSerializer(serializers.ModelSerializer):
 
     def validate(self, data: dict) -> dict:
         return data
+
+    def get_from_url(self, obj):
+        request = self.context["request"]
+        redirect_path = reverse("links:redirect", kwargs={"pk": obj.pk})
+        return f"{request.scheme}://{request.get_host()}{redirect_path}"
