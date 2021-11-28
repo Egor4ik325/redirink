@@ -12,4 +12,4 @@ export default () => {
   }, [pathname]);
 
   return null;
-}
+};
