@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleLeft,
@@ -24,8 +24,27 @@ import { Link } from "react-router-dom";
 
 import { Routes } from "../../routes";
 import BgImage from "../../assets/img/illustrations/signin.svg";
+import { signin } from "../../api/authentication";
 
-export default () => {
+const Signin = () => {
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+
+  const handleEmailChange = (newEmail) => {
+    setEmail(newEmail);
+  };
+
+  const handlePasswordChange = (newPassword) => {
+    setPassword(newPassword);
+  };
+
+  const handleSigninSubmit = () => {
+    // Attempt to login with provided credentials
+    try {
+      signin(email, password);
+    } catch (error) {}
+  };
+
   return (
     <main>
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
@@ -36,8 +55,8 @@ export default () => {
               to={Routes.DashboardOverview.path}
               className="text-gray-700"
             >
-              <FontAwesomeIcon icon={faAngleLeft} className="me-2" /> Back to
-              homepage
+              <FontAwesomeIcon icon={faAngleLeft} className="me-2" />
+              Back to homepage
             </Card.Link>
           </p>
           <Row
@@ -50,9 +69,9 @@ export default () => {
             >
               <div className="bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
                 <div className="text-center text-md-center mb-4 mt-md-0">
-                  <h3 className="mb-0">Sign in to our platform</h3>
+                  <h3 className="mb-0">Sign in to Redirink account</h3>
                 </div>
-                <Form className="mt-4">
+                <Form className="mt-4" onSubmit={handleSigninSubmit}>
                   <Form.Group id="email" className="mb-4">
                     <Form.Label>Your Email</Form.Label>
                     <InputGroup>
@@ -60,10 +79,11 @@ export default () => {
                         <FontAwesomeIcon icon={faEnvelope} />
                       </InputGroup.Text>
                       <Form.Control
+                        onChange={handleEmailChange}
                         autoFocus
                         required
                         type="email"
-                        placeholder="example@company.com"
+                        placeholder="user@company.com"
                       />
                     </InputGroup>
                   </Form.Group>
@@ -75,6 +95,7 @@ export default () => {
                           <FontAwesomeIcon icon={faUnlockAlt} />
                         </InputGroup.Text>
                         <Form.Control
+                          onChange={handlePasswordChange}
                           required
                           type="password"
                           placeholder="Password"
@@ -91,7 +112,11 @@ export default () => {
                           Remember me
                         </FormCheck.Label>
                       </Form.Check>
-                      <Card.Link className="small text-end">
+                      <Card.Link
+                        as={Link}
+                        to={Routes.ForgotPassword.path}
+                        className="small text-end"
+                      >
                         Lost password?
                       </Card.Link>
                     </div>
@@ -101,29 +126,6 @@ export default () => {
                   </Button>
                 </Form>
 
-                <div className="mt-3 mb-4 text-center">
-                  <span className="fw-normal">or login with</span>
-                </div>
-                <div className="d-flex justify-content-center my-4">
-                  <Button
-                    variant="outline-light"
-                    className="btn-icon-only btn-pill text-facebook me-2"
-                  >
-                    <FontAwesomeIcon icon={faFacebookF} />
-                  </Button>
-                  <Button
-                    variant="outline-light"
-                    className="btn-icon-only btn-pill text-twitter me-2"
-                  >
-                    <FontAwesomeIcon icon={faTwitter} />
-                  </Button>
-                  <Button
-                    variant="outline-light"
-                    className="btn-icon-only btn-pil text-dark"
-                  >
-                    <FontAwesomeIcon icon={faGithub} />
-                  </Button>
-                </div>
                 <div className="d-flex justify-content-center align-items-center mt-4">
                   <span className="fw-normal">
                     Not registered?
@@ -144,3 +146,5 @@ export default () => {
     </main>
   );
 };
+
+export default Signin;
