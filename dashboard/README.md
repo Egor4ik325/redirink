@@ -14,7 +14,7 @@ Volt React is a free and open source admin dashboard template built in React.js 
 
 ## Powered by React.js
 
-Volt React is an extension of the popular [react-bootstrap](https://react-bootstrap.github.io/) library and it is based on the newest version of Bootstrap 5. 
+Volt React is an extension of the popular [react-bootstrap](https://react-bootstrap.github.io/) library and it is based on the newest version of Bootstrap 5.
 
 ## Data-driven
 
