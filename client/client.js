@@ -24,6 +24,33 @@ class RedirinkApiClient {
     } catch (error) {
       if (error.response) {
         throw new ApiClientError("Unable to signin with provided credentials.");
+      }
+      // } else if (error.request) {
+      //   throw error;
+      // } else {
+      //   throw error;
+      // }
+    }
+  }
+
+  static signup(email, password, username) {}
+
+  static verifyEmail() {}
+
+  static changePassword() {}
+
+  static resetPassword() {}
+
+  /*
+   * General API request method for all API methods
+   */
+  async _request(config) {
+    try {
+      const response = await this._client.request(config);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        throw new ApiClientError("Unable to signin with provided credentials.");
       } else if (error.request) {
         throw new Error("No response received.");
       } else {
@@ -32,45 +59,28 @@ class RedirinkApiClient {
     }
   }
 
-  static signup(email, password, username) {}
-
-  verifyEmail() {}
-
-  changePassword() {}
-
-  resetPassword() {}
-
-  // Users
-
   async getUsers() {
-    try {
-      const response = await this._client.get(Endpoints.users);
-      return response.data;
-    } catch (error) {
-      throw new ApiClientError();
-    }
+    return await this._request({
+      method: "get",
+      url: Endpoints.users,
+    });
   }
 
-  // Links
-
   async getLinks() {
-    try {
-      const response = await this._client.get(Endpoints.links);
-      return response.data;
-    } catch (error) {
-      throw new ApiClientError();
-    }
+    return await this._request({
+      method: "get",
+      url: Endpoints.links,
+    });
   }
 
   async createLink(to_url) {
-    try {
-      const response = await this._client.post(Endpoints.links, {
+    return await this._request({
+      method: "post",
+      url: Endpoints.links,
+      data: {
         to_url: to_url,
-      });
-      return response.data;
-    } catch (error) {
-      throw new ApiClientError();
-    }
+      },
+    });
   }
 
   viewLink() {}

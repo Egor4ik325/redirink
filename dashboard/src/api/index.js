@@ -3,3 +3,4 @@
 // 1. Authentication and configuration
 // 2. Data deserialization
 // 3. Error handling
+export { default } from "./client.js";

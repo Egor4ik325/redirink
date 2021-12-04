@@ -24,25 +24,33 @@ import { Link } from "react-router-dom";
 
 import { Routes } from "../../routes";
 import BgImage from "../../assets/img/illustrations/signin.svg";
-import { signin } from "../../api/authentication";
+// import { signin } from "../../api/authentication";
+import ApiClient from "../../api";
 
 const Signin = () => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
-  const handleEmailChange = (newEmail) => {
-    setEmail(newEmail);
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
   };
 
-  const handlePasswordChange = (newPassword) => {
-    setPassword(newPassword);
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
   };
 
-  const handleSigninSubmit = () => {
+  const handleSigninSubmit = async (e) => {
+    e.preventDefault();
     // Attempt to login with provided credentials
     try {
-      signin(email, password);
-    } catch (error) {}
+      console.log(email, password);
+      const { key } = await ApiClient.signin(email, password);
+
+      // Save token in the local storage for later use
+      console.log(key);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -82,7 +90,7 @@ const Signin = () => {
                         onChange={handleEmailChange}
                         autoFocus
                         required
-                        type="email"
+                        type="text"
                         placeholder="user@company.com"
                       />
                     </InputGroup>
