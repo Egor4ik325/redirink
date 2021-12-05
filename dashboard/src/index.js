@@ -27,6 +27,10 @@ import "react-datetime/css/react-datetime.css";
 import HomePage from "./pages/HomePage";
 import ScrollToTop from "./components/ScrollToTop";
 
+//
+// React.js app entry point
+//
+
 ReactDOM.render(
   <HashRouter>
     <ScrollToTop />

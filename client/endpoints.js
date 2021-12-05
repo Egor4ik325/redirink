@@ -13,7 +13,6 @@ const Endpoints = {
   passwordReset: `${API_ORIGIN}/auth/password/reset/`,
   passwordResetConfirm: `${API_ORIGIN}/auth/password/reset/confirm/`,
   // Users
-  user: `${API_ORIGIN}/auth/user/`,
   users: `${API_ORIGIN}/api/users/`,
   usersMe: `${API_ORIGIN}/api/users/me/`,
   // Links

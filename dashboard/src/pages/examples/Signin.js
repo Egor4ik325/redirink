@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleLeft,
-  faEnvelope,
   faUnlockAlt,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faFacebookF,
@@ -20,19 +20,22 @@ import {
   Container,
   InputGroup,
 } from "@themesberg/react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import Preloader from "../../components/Preloader";
 
 import { Routes } from "../../routes";
 import BgImage from "../../assets/img/illustrations/signin.svg";
 // import { signin } from "../../api/authentication";
 import ApiClient from "../../api";
 
-const Signin = () => {
-  const [email, setEmail] = useState(null);
+const Signin = (props) => {
+  const history = useHistory();
+
+  const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
@@ -43,12 +46,20 @@ const Signin = () => {
     e.preventDefault();
     // Attempt to login with provided credentials
     try {
-      console.log(email, password);
-      const { key } = await ApiClient.signin(email, password);
+      console.log(username, password);
+      const { key } = await ApiClient.signin(username, password);
+      console.log(`Token: ${key}`);
 
       // Save token in the local storage for later use
-      console.log(key);
+      localStorage.setItem("token", key);
+
+      // Trigger complete update and rerender of the HomePage (routes)
+      props.setToken(key);
+
+      // Redirect to the dashboard page
+      history.push("/dashboard/overview");
     } catch (err) {
+      setLoggingIn(true);
       console.error(err);
     }
   };
@@ -80,18 +91,18 @@ const Signin = () => {
                   <h3 className="mb-0">Sign in to Redirink account</h3>
                 </div>
                 <Form className="mt-4" onSubmit={handleSigninSubmit}>
-                  <Form.Group id="email" className="mb-4">
-                    <Form.Label>Your Email</Form.Label>
+                  <Form.Group id="username" className="mb-4">
+                    <Form.Label>Your Username</Form.Label>
                     <InputGroup>
                       <InputGroup.Text>
-                        <FontAwesomeIcon icon={faEnvelope} />
+                        <FontAwesomeIcon icon={faUser} />
                       </InputGroup.Text>
                       <Form.Control
-                        onChange={handleEmailChange}
+                        onChange={handleUsernameChange}
                         autoFocus
                         required
                         type="text"
-                        placeholder="user@company.com"
+                        placeholder="Username"
                       />
                     </InputGroup>
                   </Form.Group>

@@ -59,6 +59,13 @@ class RedirinkApiClient {
     }
   }
 
+  async getMe() {
+    return await this._request({
+      method: "get",
+      url: Endpoints.usersMe,
+    });
+  }
+
   async getUsers() {
     return await this._request({
       method: "get",
