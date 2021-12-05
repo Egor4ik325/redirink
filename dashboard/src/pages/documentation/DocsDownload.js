@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col, Card, Container } from "@themesberg/react-bootstrap";
 
-export default () => (
+const DocsDownload = () => (
   <Container className="px-0">
     <Row>
       <Col xs={12} className="p-3">
@@ -36,3 +36,4 @@ export default () => (
     </Row>
   </Container>
 );
+export default DocsDownload;

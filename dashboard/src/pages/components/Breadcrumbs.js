@@ -3,7 +3,7 @@ import { Col, Row, Container, Breadcrumb } from "@themesberg/react-bootstrap";
 
 import Documentation from "../../components/Documentation";
 
-export default () => {
+const Breadcrumbs = () => {
   return (
     <article>
       <Container className="px-0">
@@ -102,3 +102,4 @@ export default () => {
     </article>
   );
 };
+export default Breadcrumbs;

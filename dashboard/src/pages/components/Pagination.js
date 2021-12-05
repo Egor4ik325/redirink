@@ -14,7 +14,7 @@ import {
 
 import Documentation from "../../components/Documentation";
 
-export default () => {
+const DocsPagination = () => {
   return (
     <article>
       <Container className="px-0">
@@ -270,3 +270,4 @@ render(
     </article>
   );
 };
+export default DocsPagination;

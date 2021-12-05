@@ -9,7 +9,7 @@ import {
 
 import Documentation from "../../components/Documentation";
 
-export default () => (
+const Badges = () => (
   <article>
     <Container className="px-0">
       <Row className="d-flex flex-wrap flex-md-nowrap align-items-center py-4">
@@ -97,3 +97,4 @@ export default () => (
     </Container>
   </article>
 );
+export default Badges;

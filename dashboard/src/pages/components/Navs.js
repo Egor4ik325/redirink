@@ -10,7 +10,7 @@ import { Nav, Row, Col, Container } from "@themesberg/react-bootstrap";
 
 import Documentation from "../../components/Documentation";
 
-export default () => (
+const Navs = () => (
   <article>
     <Container className="px-0">
       <Row className="d-flex flex-wrap flex-md-nowrap align-items-center py-4">
@@ -55,7 +55,7 @@ export default () => (
       <Nav.Item>
         <Nav.Link eventKey="messages" href="#" className="mb-sm-3 mb-md-0">
           Messages
-            </Nav.Link> 
+            </Nav.Link>
       </Nav.Item>
     </Nav>
   </Col>
@@ -153,3 +153,4 @@ import { faComments, faSun, faUserCircle } from '@fortawesome/free-regular-svg-i
     </Container>
   </article>
 );
+export default Navs;

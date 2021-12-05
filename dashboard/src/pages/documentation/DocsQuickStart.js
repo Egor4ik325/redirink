@@ -3,7 +3,7 @@ import { Row, Col, Card, Container, Alert } from "@themesberg/react-bootstrap";
 
 import Code from "../../components/Code";
 
-export default () => (
+const DocsQuickStart = () => (
   <Container className="px-0">
     <Row>
       <Col xs={12} className="p-3">
@@ -132,3 +132,4 @@ export default () => (
     </Row>
   </Container>
 );
+export default DocsQuickStart;

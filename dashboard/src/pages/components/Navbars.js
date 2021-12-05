@@ -13,7 +13,7 @@ import Documentation from "../../components/Documentation";
 import ReactLogoPrimary from "../../assets/img/technologies/react-logo-primary.svg";
 import ReactLogoTransparent from "../../assets/img/technologies/react-logo-transparent.svg";
 
-export default () => {
+const Navbars = () => {
   return (
     <article>
       <Container className="px-0">
@@ -124,3 +124,4 @@ render( <NavbarChangingColors /> );`}
     </article>
   );
 };
+export default Navbars;

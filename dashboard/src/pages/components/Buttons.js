@@ -19,7 +19,7 @@ import {
 
 import Documentation from "../../components/Documentation";
 
-export default () => {
+const Buttons = () => {
   return (
     <article>
       <Container className="px-0">
@@ -418,3 +418,4 @@ import { faAngleDown, faAngleUp, faAngleLeft, faAngleRight } from "@fortawesome/
     </article>
   );
 };
+export default Buttons;

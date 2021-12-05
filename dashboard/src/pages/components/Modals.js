@@ -10,7 +10,7 @@ import {
 
 import Documentation from "../../components/Documentation";
 
-export default () => {
+const Modals = () => {
   const [showDefault, setShowDefault] = useState(false);
   const handleClose = () => setShowDefault(false);
 
@@ -90,3 +90,4 @@ const handleClose = () => setShowDefault(false);`}
     </article>
   );
 };
+export default Modals;

@@ -21,7 +21,7 @@ import { Routes } from "../../routes";
 import BgImage from "../../assets/img/illustrations/signin.svg";
 import Profile3 from "../../assets/img/team/profile-picture-3.jpg";
 
-export default () => {
+const Lock = () => {
   const [showPassword, setShowPassword] = useState(false);
   const passwordInputType = showPassword ? "text" : "password";
   const passwordIconColor = showPassword ? "#262B40" : "";
@@ -92,3 +92,4 @@ export default () => {
     </main>
   );
 };
+export default Lock;

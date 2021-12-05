@@ -11,7 +11,7 @@ import {
 
 import Documentation from "../../components/Documentation";
 
-export default () => {
+const Alerts = () => {
   return (
     <article>
       <Container className="px-0">
@@ -123,7 +123,7 @@ import { faBullhorn } from "@fortawesome/free-solid-svg-icons";`}
           <Button variant="close" size="xs" onClick={() => onClose("secondary")} />
         </div>
       </Alert>
-      
+
       <Alert
         variant="danger"
         show={shouldShowAlert("danger")}
@@ -203,3 +203,4 @@ render( <DismissableAlerts /> );`}
     </article>
   );
 };
+export default Alerts;

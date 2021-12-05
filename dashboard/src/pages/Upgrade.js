@@ -10,7 +10,7 @@ import {
 import { Col, Row, Button } from "@themesberg/react-bootstrap";
 import { Table } from "@themesberg/react-bootstrap";
 
-export default () => {
+const Upgrade = () => {
   return (
     <>
       <Row className="mt-lg-5 mt-4 d-flex justify-content-center">
@@ -175,3 +175,4 @@ export default () => {
     </>
   );
 };
+export default Upgrade;

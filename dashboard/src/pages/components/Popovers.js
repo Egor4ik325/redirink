@@ -10,7 +10,7 @@ import {
 
 import Documentation from "../../components/Documentation";
 
-export default () => {
+const Popovers = () => {
   return (
     <article>
       <Container className="px-0">
@@ -115,3 +115,4 @@ export default () => {
     </article>
   );
 };
+export default Popovers;

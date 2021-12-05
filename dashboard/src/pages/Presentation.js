@@ -56,7 +56,7 @@ import ReactLogo from "../assets/img/technologies/react-logo.svg";
 import pages from "../data/pages";
 import features from "../data/features";
 
-export default () => {
+const Presentation = () => {
   const PagePreview = (props) => {
     const { name, image, link } = props;
 
@@ -1042,3 +1042,4 @@ export default () => {
     </>
   );
 };
+export default Presentation;

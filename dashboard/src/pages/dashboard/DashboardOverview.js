@@ -31,7 +31,7 @@ import {
 import { PageVisitsTable } from "../../components/Tables";
 import { trafficShares, totalOrders } from "../../data/charts";
 
-export default () => {
+let DashBoardOverview = () => {
   return (
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -164,3 +164,5 @@ export default () => {
     </>
   );
 };
+
+export default DashBoardOverview;

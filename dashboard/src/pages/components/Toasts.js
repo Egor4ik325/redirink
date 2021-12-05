@@ -12,7 +12,7 @@ import {
 
 import Documentation from "../../components/Documentation";
 
-export default () => {
+const Toasts = () => {
   const [showDefault, setShowDefault] = useState(true);
   const [showPrimary, setShowPrimary] = useState(true);
   const [showTertiary, setShowTertiary] = useState(true);
@@ -144,3 +144,4 @@ const handleCloseTertiary = () => setShowTertiary(false);`}
     </article>
   );
 };
+export default Toasts;

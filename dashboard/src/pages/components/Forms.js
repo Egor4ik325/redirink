@@ -14,7 +14,7 @@ import {
 
 import Documentation from "../../components/Documentation";
 
-export default () => {
+const Forms = () => {
   return (
     <article>
       <Container className="px-0">
@@ -333,3 +333,4 @@ render( <Datepicker /> )`}
     </article>
   );
 };
+export default Forms;

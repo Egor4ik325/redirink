@@ -12,7 +12,7 @@ import FranceFlag from "../../assets/img/flags/france.svg";
 import JapanFlag from "../../assets/img/flags/japan.svg";
 import GermanyFlag from "../../assets/img/flags/germany.svg";
 
-export default () => {
+const Tables = () => {
   return (
     <article>
       <Container className="px-0">
@@ -163,3 +163,4 @@ import GermanyFlag from "src/assets/img/flags/germany.svg";`}
     </article>
   );
 };
+export default Tables;

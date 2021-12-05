@@ -13,7 +13,7 @@ import {
 
 import Documentation from "../../components/Documentation";
 
-export default () => {
+const Tabs = () => {
   return (
     <article>
       <Container className="px-0">
@@ -239,3 +239,4 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";`}
     </article>
   );
 };
+export default Tabs;

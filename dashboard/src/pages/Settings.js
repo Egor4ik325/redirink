@@ -18,7 +18,7 @@ import { GeneralInfoForm } from "../components/Forms";
 
 import Profile3 from "../assets/img/team/profile-picture-3.jpg";
 
-export default () => {
+const Settings = () => {
   return (
     <>
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -110,3 +110,4 @@ export default () => {
     </>
   );
 };
+export default Settings;

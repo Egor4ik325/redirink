@@ -4,7 +4,7 @@ import { Col, Row, Container } from "@themesberg/react-bootstrap";
 import Documentation from "../../components/Documentation";
 import Progress from "../../components/Progress";
 
-export default () => (
+const ProgressPage = () => (
   <article>
     <Container className="px-0">
       <Row className="d-flex flex-wrap flex-md-nowrap align-items-center py-4">
@@ -76,3 +76,4 @@ export default () => (
     </Container>
   </article>
 );
+export default ProgressPage;
