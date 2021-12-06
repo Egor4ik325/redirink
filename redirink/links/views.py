@@ -6,6 +6,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.schemas.openapi import AutoSchema
 
+from redirink.insights.tasks import track_insight
 from redirink.links.models import Link, link_uuid_alphabet, link_uuid_length
 from redirink.links.pagination import LinkPagination
 from redirink.links.permissions import LinkPermission
@@ -61,8 +62,13 @@ def link_redirect_view(request: Request, pk: str):
     """
     Redirect to the link's `to_url` URL from short UUID.
     """
-
     link = get_object_or_404(Link, pk=pk)
+
+    xff = request.META.get("HTTP_X_FORWARDED_FOR")
+    remote_addr = request.META.get("REMOTE_ADDR")
+    address = "".join(xff.split()) if xff else remote_addr
+    insight = track_insight.delay(pk, address)
+
     return Response(
         status=status.HTTP_301_MOVED_PERMANENTLY,
         headers={"Location": link.to_url},
