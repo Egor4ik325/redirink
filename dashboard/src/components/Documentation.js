@@ -3,7 +3,7 @@ import { Row, Col } from "@themesberg/react-bootstrap";
 
 import CodeEditor from "./CodeEditor";
 
-export default (props) => {
+const Documentation = (props) => {
   const {
     title,
     description,
@@ -39,3 +39,4 @@ export default (props) => {
     </>
   );
 };
+export default Documentation;

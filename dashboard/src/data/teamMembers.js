@@ -5,7 +5,7 @@ import Profile2 from "../assets/img/team/profile-picture-2.jpg";
 import Profile3 from "../assets/img/team/profile-picture-3.jpg";
 import Profile4 from "../assets/img/team/profile-picture-4.jpg";
 
-export default [
+const teamMembers = [
   {
     id: 1,
     image: Profile1,
@@ -39,3 +39,4 @@ export default [
     btnText: "Message",
   },
 ];
+export default teamMembers;

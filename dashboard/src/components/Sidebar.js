@@ -34,7 +34,7 @@ import ThemesbergLogo from "../assets/img/themesberg.svg";
 import ReactHero from "../assets/img/technologies/react-hero-logo.svg";
 import ProfilePicture from "../assets/img/team/profile-picture-3.jpg";
 
-export default (props = {}) => {
+const Sidebar = (props = {}) => {
   const location = useLocation();
   const { pathname } = location;
   const [show, setShow] = useState(false);
@@ -191,14 +191,6 @@ export default (props = {}) => {
                 icon={faChartPie}
               />
               <NavItem
-                external
-                title="Messages"
-                link="https://demo.themesberg.com/volt-pro-react/#/messages"
-                target="_blank"
-                badgeText="Pro"
-                icon={faInbox}
-              />
-              <NavItem
                 title="Transactions"
                 icon={faHandHoldingUsd}
                 link={Routes.Transactions.path}
@@ -207,22 +199,6 @@ export default (props = {}) => {
                 title="Settings"
                 icon={faCog}
                 link={Routes.Settings.path}
-              />
-              <NavItem
-                external
-                title="Calendar"
-                link="https://demo.themesberg.com/volt-pro-react/#/calendar"
-                target="_blank"
-                badgeText="Pro"
-                icon={faCalendarAlt}
-              />
-              <NavItem
-                external
-                title="Map"
-                link="https://demo.themesberg.com/volt-pro-react/#/map"
-                target="_blank"
-                badgeText="Pro"
-                icon={faMapPin}
               />
 
               <CollapsableNavItem
@@ -258,15 +234,6 @@ export default (props = {}) => {
                   link={Routes.ServerError.path}
                 />
               </CollapsableNavItem>
-
-              <NavItem
-                external
-                title="Plugins"
-                link="https://demo.themesberg.com/volt-pro-react/#/plugins/datatable"
-                target="_blank"
-                badgeText="Pro"
-                icon={faChartPie}
-              />
 
               <Dropdown.Divider className="my-3 border-indigo" />
 
@@ -325,15 +292,6 @@ export default (props = {}) => {
                 target="_blank"
                 image={ThemesbergLogo}
               />
-              <Button
-                as={Link}
-                to={Routes.Upgrade.path}
-                variant="secondary"
-                className="upgrade-to-pro"
-              >
-                <FontAwesomeIcon icon={faRocket} className="me-1" /> Upgrade to
-                Pro
-              </Button>
             </Nav>
           </div>
         </SimpleBar>
@@ -341,3 +299,5 @@ export default (props = {}) => {
     </>
   );
 };
+
+export default Sidebar;

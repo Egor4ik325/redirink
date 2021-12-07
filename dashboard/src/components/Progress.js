@@ -1,7 +1,7 @@
 import React from "react";
 import { ProgressBar } from "@themesberg/react-bootstrap";
 
-export default (props) => {
+const Progress = (props) => {
   const { label, variant, value, type = "label", size = "md" } = props;
   const finalValue = value
     ? value
@@ -29,3 +29,4 @@ export default (props) => {
     </div>
   );
 };
+export default Progress;

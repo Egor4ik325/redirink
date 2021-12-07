@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Accordion } from "@themesberg/react-bootstrap";
 
-export default (props) => {
+const AccordionComponent = (props) => {
   const { defaultKey, data = [], className = "" } = props;
 
   const AccordionItem = (item) => {
@@ -32,3 +32,4 @@ export default (props) => {
     </Accordion>
   );
 };
+export default AccordionComponent;

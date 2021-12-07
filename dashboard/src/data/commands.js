@@ -1,4 +1,4 @@
-export default [
+const commands = [
   {
     id: 1,
     name: "install",
@@ -39,3 +39,5 @@ export default [
     link: 7,
   },
 ];
+
+export default commands;

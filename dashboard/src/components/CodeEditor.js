@@ -15,7 +15,7 @@ import Code from "./Code";
 
 import themeStyle from "../assets/syntax-themes/ghcolors.json";
 
-export default (props) => {
+const CodeEditor = (props) => {
   const {
     language = "jsx",
     scope = {},
@@ -105,3 +105,5 @@ export default (props) => {
     </LiveProvider>
   );
 };
+
+export default CodeEditor;

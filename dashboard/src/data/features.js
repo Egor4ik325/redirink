@@ -15,7 +15,7 @@ import {
   faSass,
 } from "@fortawesome/free-brands-svg-icons";
 
-export default [
+const features = [
   {
     id: 0,
     title: "React.js",
@@ -89,3 +89,5 @@ export default [
     description: "Crafted by professional UI/UX designers",
   },
 ];
+
+export default features;

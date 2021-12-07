@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useReducer, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
@@ -24,8 +24,10 @@ import {
 
 import NOTIFICATIONS_DATA from "../data/notifications";
 import Profile3 from "../assets/img/team/profile-picture-3.jpg";
+import { UserContext } from "../pages/HomePage";
 
-export default (props) => {
+const DocsNavbar = () => {
+  const user = useContext(UserContext);
   const [notifications, setNotifications] = useState(NOTIFICATIONS_DATA);
   const areNotificationsRead = notifications.reduce(
     (acc, notif) => acc && notif.read,
@@ -124,19 +126,18 @@ export default (props) => {
                     className="user-avatar md-avatar rounded-circle"
                   />
                   <div className="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                    <span className="mb-0 font-small fw-bold">
-                      Bonnie Green
-                    </span>
+                    <span className="mb-0 font-small fw-bold">{user.name}</span>
                   </div>
                 </div>
               </Dropdown.Toggle>
               <Dropdown.Menu className="user-dropdown dropdown-menu-right mt-2">
                 <Dropdown.Item className="fw-bold">
-                  <FontAwesomeIcon icon={faUserCircle} className="me-2" /> My
-                  Profile
+                  <FontAwesomeIcon icon={faUserCircle} className="me-2" />
+                  My Profile
                 </Dropdown.Item>
                 <Dropdown.Item className="fw-bold">
-                  <FontAwesomeIcon icon={faCog} className="me-2" /> Settings
+                  <FontAwesomeIcon icon={faCog} className="me-2" />
+                  Settings
                 </Dropdown.Item>
                 <Dropdown.Item className="fw-bold">
                   <FontAwesomeIcon icon={faEnvelopeOpen} className="me-2" />{" "}
@@ -164,3 +165,4 @@ export default (props) => {
     </Navbar>
   );
 };
+export default DocsNavbar;

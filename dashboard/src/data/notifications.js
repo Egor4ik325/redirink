@@ -4,7 +4,7 @@ import Profile3 from "../assets/img/team/profile-picture-3.jpg";
 import Profile4 from "../assets/img/team/profile-picture-4.jpg";
 import Profile5 from "../assets/img/team/profile-picture-5.jpg";
 
-export default [
+const notifications = [
   {
     id: 1,
     read: false,
@@ -51,3 +51,4 @@ export default [
     message: `New message: "We need to improve the UI/UX for the landing page."`,
   },
 ];
+export default notifications;

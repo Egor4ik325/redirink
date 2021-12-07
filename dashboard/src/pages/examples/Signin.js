@@ -20,7 +20,7 @@ import {
   Container,
   InputGroup,
 } from "@themesberg/react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Preloader from "../../components/Preloader";
 
 import { Routes } from "../../routes";
@@ -28,9 +28,7 @@ import BgImage from "../../assets/img/illustrations/signin.svg";
 // import { signin } from "../../api/authentication";
 import ApiClient from "../../api";
 
-const Signin = (props) => {
-  const history = useHistory();
-
+const Signin = ({ setToken, ...props }) => {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
 
@@ -54,12 +52,8 @@ const Signin = (props) => {
       localStorage.setItem("token", key);
 
       // Trigger complete update and rerender of the HomePage (routes)
-      props.setToken(key);
-
-      // Redirect to the dashboard page
-      history.push("/dashboard/overview");
+      setToken(key);
     } catch (err) {
-      setLoggingIn(true);
       console.error(err);
     }
   };
