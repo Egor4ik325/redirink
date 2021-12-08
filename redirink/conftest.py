@@ -3,6 +3,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.test import APIClient, APIRequestFactory
 
+from redirink.insights.models import Insight, Visitor
+from redirink.insights.tests.factories import InsightFactory, VisitorFactory
 from redirink.links.models import Link
 from redirink.links.tests.factories import LinkFactory
 from redirink.users.models import User
@@ -42,3 +44,13 @@ def link() -> Link:
 @pytest.fixture
 def token(user) -> Token:
     return Token.objects.get_or_create(user=user)
+
+
+@pytest.fixture
+def insight() -> Insight:
+    return InsightFactory()
+
+
+@pytest.fixture
+def visitor() -> Visitor:
+    return VisitorFactory()
