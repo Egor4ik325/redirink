@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from django.db import DataError
+from django.db import DataError, IntegrityError, InternalError
 
 from config import celery_app
 from redirink.insights.models import Insight, Visitor
@@ -18,6 +18,6 @@ def track_insight(pk: int, address: str) -> Insight:
             visitor.full_clean()
 
         return Insight.objects.create(link=link, visitor=visitor)
-    except (DataError, ValidationError):
+    except (DataError, IntegrityError, InternalError, ValidationError) as e:
         # If validation error occurs (IP address is invalid) just skip this
         return Insight.objects.create(link=link)

@@ -1,6 +1,6 @@
 import pytest
 from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
+from rest_framework.request import Request
 from rest_framework.test import APIClient, APIRequestFactory
 
 from redirink.insights.models import Insight, Visitor
@@ -27,7 +27,7 @@ def api_client():
 
 
 @pytest.fixture
-def rq(api_rf) -> Response:
+def rq(api_rf) -> Request:
     return api_rf.get("/mocked-request-path/")
 
 
