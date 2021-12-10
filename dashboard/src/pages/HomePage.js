@@ -16,6 +16,7 @@ import ResetPassword from "./examples/ResetPassword";
 import Lock from "./examples/Lock";
 import NotFoundPage from "./examples/NotFound";
 import ServerError from "./examples/ServerError";
+import Links from "./Links";
 
 // documentation pages
 import DocsOverview from "./documentation/DocsOverview";
@@ -31,7 +32,6 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Preloader from "../components/Preloader";
-
 import Accordion from "./components/Accordion";
 import Alerts from "./components/Alerts";
 import Badges from "./components/Badges";
@@ -242,16 +242,17 @@ const HomePage = () => {
           path={Routes.DashboardOverview.path}
           component={DashboardOverview}
         />
-        <RouteWithSidebar
+        {/* <RouteWithSidebar
           exact
           path={Routes.Upgrade.path}
           component={Upgrade}
-        />
+        /> */}
         <RouteWithSidebar
           exact
           path={Routes.Transactions.path}
           component={Transactions}
         />
+        <RouteWithSidebar exact path={Routes.Links.path} component={Links} />
         <RouteWithSidebar
           exact
           path={Routes.Settings.path}
