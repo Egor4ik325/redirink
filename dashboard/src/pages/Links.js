@@ -36,6 +36,10 @@ const Links = () => {
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [createUrl, setCreateUrl] = useState(null);
+  const [updateKey, setUpdateKey] = useState(null);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteLink, setDeleteLink] = useState(null);
 
   useEffect(() => {
     // Constructor
@@ -77,9 +81,22 @@ const Links = () => {
     }
   };
 
-  const handelCancelModal = () => {};
+  // Save key and display modal
+  const handleUpdate = (pk) => {
+    console.log("Handle update for ", pk);
+    setUpdateKey(pk);
+    setShowUpdateModal(true);
+  };
 
-  const handleDelete = () => {};
+  const handleDelete = (pk) => {
+    console.log("Handle delete for ", pk);
+    setDeleteLink(links.results.find((link) => link.pk === pk));
+    setShowDeleteModal(true);
+  };
+
+  const handleDeleteSubmit = () => {
+    console.log("Handle delete submit");
+  };
 
   return (
     <>
@@ -168,18 +185,18 @@ const Links = () => {
                           </span>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                          <Dropdown.Item>
-                            <FontAwesomeIcon icon={faEdit} className="me-2" />{" "}
+                          <Dropdown.Item onClick={() => handleUpdate(link.pk)}>
+                            <FontAwesomeIcon icon={faEdit} className="me-2" />
                             Edit
                           </Dropdown.Item>
                           <Dropdown.Item
                             className="text-danger"
-                            onClick={handleDelete}
+                            onClick={() => handleDelete(link.pk)}
                           >
                             <FontAwesomeIcon
                               icon={faTrashAlt}
                               className="me-2"
-                            />{" "}
+                            />
                             Remove
                           </Dropdown.Item>
                         </Dropdown.Menu>
@@ -241,8 +258,156 @@ const Links = () => {
           </Modal.Footer>
         </Form>
       </Modal>
+      <LinkUpdateModal
+        showUpdateModal={showUpdateModal}
+        setShowUpdateModal={setShowUpdateModal}
+        setRefresh={setRefresh}
+        links={links}
+        setLinks={setLinks}
+        pk={updateKey}
+      />
+      <LinkDeleteModal
+        showModal={showDeleteModal}
+        setShowModal={setShowDeleteModal}
+        setRefresh={setRefresh}
+        link={deleteLink}
+        setLink={setDeleteLink}
+      />
     </>
   );
 };
+
+function LinkUpdateModal({
+  showUpdateModal,
+  setShowUpdateModal,
+  setRefresh,
+  links,
+  setLinks,
+  pk,
+  ...rest
+}) {
+  const link = links.results
+    ? links.results.find((link) => link.pk === pk)
+    : null;
+  const [updateUrl, setUpdateUrl] = useState(null);
+
+  const handleUpdateUrlChange = (e) => {
+    setUpdateUrl(e.target.value);
+  };
+
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+
+    // Create new link
+    try {
+      await client.changeLink(pk, updateUrl);
+      // Immediately rerender with updated data
+      const updatedLinkIndex = links.results.findIndex(
+        (link) => link.pk === pk
+      );
+      let updatedLinks = links;
+      updatedLinks.results[updatedLinkIndex] = { ...link, toUrl: updateUrl };
+      setLinks(updatedLinks);
+      setRefresh(true); // refetch data
+      setShowUpdateModal(false); // close modal
+    } catch (e) {
+      // handle
+      console.error(`Error updating link ${pk}: `, e.message);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowUpdateModal(false);
+    setUpdateUrl(null);
+  };
+
+  return (
+    <Modal
+      as={Modal.Dialog}
+      centered
+      show={showUpdateModal}
+      onHide={handleCloseModal}
+    >
+      <Form onSubmit={handleUpdateSubmit}>
+        <Modal.Header>
+          <Modal.Title className="h6">Update Link</Modal.Title>
+          <Button
+            variant="close"
+            aria-label="Close"
+            onClick={handleCloseModal}
+          />
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group className="mb-3">
+            <Form.Label>URL</Form.Label>
+            <Form.Control
+              required
+              name="update-url"
+              type="url"
+              placeholder="https://github.com/github"
+              value={
+                updateUrl === null ? (link ? link.toUrl : null) : updateUrl
+              }
+              onChange={handleUpdateUrlChange}
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="link"
+            className="text-gray"
+            onClick={handleCloseModal}
+          >
+            Cancel
+          </Button>
+          <Button variant="primary" type="submit">
+            Save
+          </Button>
+        </Modal.Footer>
+      </Form>
+    </Modal>
+  );
+}
+
+function LinkDeleteModal({
+  showModal,
+  setShowModal,
+  setRefresh,
+  link,
+  setLink,
+}) {
+  const handleClose = () => {
+    setShowModal(false);
+    setLink(null);
+  };
+  const handleDeleteClick = async () => {
+    try {
+      await client.deleteLink(link.pk);
+      setRefresh(true); // refetch data
+      handleClose(); // close modal
+    } catch (e) {
+      console.error(`Error deleting link ${link.pk}: `, e.message);
+    }
+  };
+  return (
+    <Modal as={Modal.Dialog} centered show={showModal} onHide={handleClose}>
+      <Modal.Header>
+        <Modal.Title className="h6">Delete Link</Modal.Title>
+        <Button variant="close" aria-label="Close" onClick={handleClose} />
+      </Modal.Header>
+      <Modal.Body>
+        <p>Are you sure you want to delete this link?</p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="link" className="text-gray" onClick={handleClose}>
+          Cancel
+        </Button>
+        <Button variant="primary" onClick={handleDeleteClick}>
+          Yes
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
 
 export default Links;
