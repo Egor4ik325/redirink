@@ -51,7 +51,6 @@
     "react-router-hash-link": "^2.4.3",
     "react-scripts": "4.0.3",
     "react-transition-group": "^4.4.2",
-    "redirink-node-client": "file:../client",
     "simplebar-react": "^2.3.6"
   },
   "scripts": {

@@ -25,11 +25,6 @@ class RedirinkApiClient {
       if (error.response) {
         throw new ApiClientError("Unable to signin with provided credentials.");
       }
-      // } else if (error.request) {
-      //   throw error;
-      // } else {
-      //   throw error;
-      // }
     }
   }
 
@@ -42,7 +37,7 @@ class RedirinkApiClient {
   static resetPassword() {}
 
   /*
-   * General API request method for all API methods
+   * General API request method for all API methods.
    */
   async _request(config) {
     try {
@@ -50,13 +45,34 @@ class RedirinkApiClient {
       return response.data;
     } catch (error) {
       if (error.response) {
-        throw new ApiClientError("Unable to signin with provided credentials.");
+        throw new ApiClientError(`Request error: ${error.message}`);
       } else if (error.request) {
         throw new Error("No response received.");
       } else {
         throw new Error(error.message);
       }
     }
+  }
+
+  // Serialize user object
+  _serializeUser(user) {
+    return {
+      name: user.name,
+      username: user.username,
+      url: user.url,
+    };
+  }
+
+  /*
+   * Serialize object (link) to the native datatype and name convention.
+   */
+  _serializeLink(link) {
+    return {
+      pk: link.pk,
+      fromUrl: link.from_url,
+      toUrl: link.to_url,
+      createTime: link.create_time,
+    };
   }
 
   async getMe() {
@@ -67,34 +83,65 @@ class RedirinkApiClient {
   }
 
   async getUsers() {
-    return await this._request({
+    const users = await this._request({
       method: "get",
       url: Endpoints.users,
     });
+    // Serialize users
+    return [users.map((user) => this._serializeUser(user))];
   }
 
   async getLinks() {
-    return await this._request({
+    const links = await this._request({
       method: "get",
       url: Endpoints.links,
     });
+    // Serialize response
+    return {
+      count: links.count,
+      next: links.next,
+      previous: links.previous,
+      results: links.results.map((link) => this._serializeLink(link)),
+    };
   }
 
-  async createLink(to_url) {
+  async createLink(toUrl) {
     return await this._request({
       method: "post",
       url: Endpoints.links,
       data: {
-        to_url: to_url,
+        to_url: toUrl,
       },
     });
   }
 
-  viewLink() {}
+  async viewLink(pk) {
+    const link = await this._request({
+      method: "get",
+      url: `${Endpoints.links}${pk}/`,
+    });
 
-  changeLink() {}
+    return this._serializeLink(link);
+  }
 
-  deleteLink() {}
+  async changeLink(pk, toUrl) {
+    const link = await this._request({
+      method: "patch",
+      url: `${Endpoints.links}${pk}/`,
+      data: {
+        to_url: toUrl,
+      },
+    });
+
+    return this._serializeLink(link);
+  }
+
+  async deleteLink(pk) {
+    await this._request({
+      method: "delete",
+      url: `${Endpoints.links}${pk}/`,
+    });
+  }
 }
 
 export default RedirinkApiClient;

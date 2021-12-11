@@ -1,8 +1,8 @@
 // API client cares about:
 //
-// 1. Authentication and configuration
-// 2. Data deserialization
-// 3. Error handling
+// 1. Authentication and configuration (headers)
+// 2. Data deserialization (native types, names, form)
+// 3. Error handling (custom exceptions)
 import ApiClientLocalStorage from "./client.js";
 export { default } from "./client.js";
 export { TokenIsNull } from "./exceptions.js";

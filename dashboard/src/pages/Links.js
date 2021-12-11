@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { faHome, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHome,
+  faPlusCircle,
+  faEdit,
+  faTrashAlt,
+  faEllipsisH,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Breadcrumb,
@@ -8,6 +14,10 @@ import {
   Col,
   Card,
   Table,
+  Modal,
+  Form,
+  Dropdown,
+  ButtonGroup,
 } from "@themesberg/react-bootstrap";
 import { client } from "../api";
 
@@ -16,7 +26,16 @@ const LinkRow = ({ id, fromUrl, toUrl, createTime }) => {
 };
 
 const Links = () => {
-  const [links, setLinks] = useState({ count: null, results: null });
+  const [refresh, setRefresh] = useState(true); // data refresh is needed
+  const [links, setLinks] = useState({
+    count: null,
+    next: null,
+    previous: null,
+    results: null,
+  });
+
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [createUrl, setCreateUrl] = useState(null);
 
   useEffect(() => {
     // Constructor
@@ -30,11 +49,37 @@ const Links = () => {
       }
     };
 
-    fetchLinks();
+    if (refresh) {
+      fetchLinks();
+      setRefresh(false);
+    }
 
     // Destructor
     return () => {};
-  }, []);
+  }, [refresh]);
+
+  const handleCreateUrlChange = (e) => {
+    setCreateUrl(e.target.value);
+  };
+
+  const handleCreateSubmit = async (e) => {
+    e.preventDefault();
+
+    // Create new link
+    try {
+      await client.createLink(createUrl);
+      e.target.reset(); // clear all fields
+      setRefresh(true); // refetch data
+      setShowCreateModal(false); // close modal
+    } catch (e) {
+      // handle
+      console.error("Error creating new link: ", e.message);
+    }
+  };
+
+  const handelCancelModal = () => {};
+
+  const handleDelete = () => {};
 
   return (
     <>
@@ -57,7 +102,11 @@ const Links = () => {
         </div>
         {/* Toolbar */}
         <div className="btn-toolbar mb-2 mb-md-0">
-          <Button variant="primary" size="sm">
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => setShowCreateModal(true)}
+          >
             <FontAwesomeIcon icon={faPlusCircle} className="me-2" />
             Create Link
           </Button>
@@ -82,7 +131,7 @@ const Links = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr key={21}>
                 <td>21</td>
                 <td>
                   <a href="https://localhost:8000/abc" className="link-primary">
@@ -95,18 +144,51 @@ const Links = () => {
               {links.results ? (
                 links.results.map((link) => (
                   <tr key={link.pk}>
-                    <td>{link.pk}</td>
+                    <td>1{link.pk}</td>
                     <td>
-                      <a href={link.from_url}>{link.from_url}</a>
+                      <a href={link.fromUrl}>{link.fromUrl}</a>
                     </td>
                     <td>
-                      <a href={link.to_url}>{link.to_url}</a>
+                      <a href={link.toUrl}>{link.toUrl}</a>
                     </td>
-                    <td>{link.create_time}</td>
+                    <td>{link.createTime}</td>
+                    <td>
+                      <Dropdown as={ButtonGroup}>
+                        <Dropdown.Toggle
+                          as={Button}
+                          split
+                          variant="link"
+                          className="text-dark m-0 p-0"
+                        >
+                          <span className="icon icon-sm">
+                            <FontAwesomeIcon
+                              icon={faEllipsisH}
+                              className="icon-dark"
+                            />
+                          </span>
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          <Dropdown.Item>
+                            <FontAwesomeIcon icon={faEdit} className="me-2" />{" "}
+                            Edit
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            className="text-danger"
+                            onClick={handleDelete}
+                          >
+                            <FontAwesomeIcon
+                              icon={faTrashAlt}
+                              className="me-2"
+                            />{" "}
+                            Remove
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </td>
                   </tr>
                 ))
               ) : (
-                <tr>
+                <tr key="...">
                   <td>...</td>
                   <td>...</td>
                   <td>...</td>
@@ -117,6 +199,48 @@ const Links = () => {
           </Table>
         </Card.Body>
       </Card>
+
+      <Modal
+        as={Modal.Dialog}
+        centered
+        show={showCreateModal}
+        onHide={() => setShowCreateModal(false)}
+      >
+        <Form onSubmit={handleCreateSubmit}>
+          <Modal.Header>
+            <Modal.Title className="h6">Create New Link</Modal.Title>
+            <Button
+              variant="close"
+              aria-label="Close"
+              onClick={() => setShowCreateModal(false)}
+            />
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Group className="mb-3">
+              <Form.Label>URL</Form.Label>
+              <Form.Control
+                required
+                name="create-url"
+                type="url"
+                placeholder="https://github.com/github"
+                onChange={handleCreateUrlChange}
+              />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="link"
+              className="text-gray"
+              onClick={() => setShowCreateModal(false)}
+            >
+              Cancel
+            </Button>
+            <Button variant="primary" type="submit">
+              Create
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
     </>
   );
 };
