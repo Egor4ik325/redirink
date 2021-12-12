@@ -17,6 +17,7 @@ import Lock from "./examples/Lock";
 import NotFoundPage from "./examples/NotFound";
 import ServerError from "./examples/ServerError";
 import Links from "./Links";
+import Insights from "./Insights";
 
 // documentation pages
 import DocsOverview from "./documentation/DocsOverview";
@@ -257,6 +258,11 @@ const HomePage = () => {
           exact
           path={Routes.Settings.path}
           component={Settings}
+        />
+        <RouteWithSidebar
+          exact
+          path={Routes.Insights.path}
+          component={Insights}
         />
         <RouteWithSidebar
           exact

@@ -17,6 +17,8 @@ import {
   faMapPin,
   faInbox,
   faRocket,
+  faLink,
+  faEye,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   Nav,
@@ -33,6 +35,7 @@ import { Routes } from "../routes";
 import ThemesbergLogo from "../assets/img/themesberg.svg";
 import ReactHero from "../assets/img/technologies/react-hero-logo.svg";
 import ProfilePicture from "../assets/img/team/profile-picture-3.jpg";
+import RedirinkLogo from "../assets/img/redirink-logo-128.png";
 
 const Sidebar = (props = {}) => {
   const location = useLocation();
@@ -180,9 +183,9 @@ const Sidebar = (props = {}) => {
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
               <NavItem
-                title="Volt React"
+                title="Redirink"
                 link={Routes.Presentation.path}
-                image={ReactHero}
+                image={RedirinkLogo}
               />
 
               <NavItem
@@ -194,6 +197,12 @@ const Sidebar = (props = {}) => {
                 title="Transactions"
                 icon={faHandHoldingUsd}
                 link={Routes.Transactions.path}
+              />
+              <NavItem title="Links" icon={faLink} link={Routes.Links.path} />
+              <NavItem
+                title="Insights"
+                icon={faEye}
+                link={Routes.Insights.path}
               />
               <NavItem
                 title="Settings"
@@ -285,13 +294,6 @@ const Sidebar = (props = {}) => {
                 <NavItem title="Toasts" link={Routes.Toasts.path} />
                 <NavItem title="Tooltips" link={Routes.Tooltips.path} />
               </CollapsableNavItem>
-              <NavItem
-                external
-                title="Themesberg"
-                link="https://themesberg.com"
-                target="_blank"
-                image={ThemesbergLogo}
-              />
             </Nav>
           </div>
         </SimpleBar>

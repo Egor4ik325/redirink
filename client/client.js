@@ -75,6 +75,14 @@ class RedirinkApiClient {
     };
   }
 
+  _serializeInsight(insight) {
+    return {
+      link: insight.link,
+      visitorId: insight.visitor_id,
+      time: insight.time,
+    };
+  }
+
   async getMe() {
     return await this._request({
       method: "get",
@@ -141,6 +149,23 @@ class RedirinkApiClient {
       method: "delete",
       url: `${Endpoints.links}${pk}/`,
     });
+  }
+
+  async getInsights(params = {}) {
+    const insights = await this._request({
+      method: "get",
+      url: Endpoints.insights,
+      params: params,
+    });
+    // Serialize insights
+    return {
+      count: insights.count,
+      next: insights,
+      previous: insights.previous,
+      results: insights.results.map((insight) =>
+        this._serializeInsight(insight)
+      ),
+    };
   }
 }
 

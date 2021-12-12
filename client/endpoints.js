@@ -17,6 +17,8 @@ const Endpoints = {
   usersMe: `${API_ORIGIN}/api/users/me/`,
   // Links
   links: `${API_ORIGIN}/api/links/`,
+  // Insights
+  insights: `${API_ORIGIN}/api/insights/`,
 };
 
 export default Endpoints;

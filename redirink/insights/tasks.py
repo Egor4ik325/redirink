@@ -7,8 +7,11 @@ from redirink.links.models import Link
 
 
 @celery_app.task()
-def track_insight(pk: int, address: str) -> Insight:
-    """Track the insight made by request client."""
+def track_insight(pk: int, address: str) -> int:
+    """Track the insight made by request client.
+
+    Return id of the created insight (serialized data).
+    """
 
     link = Link.objects.get(pk=pk)
 
@@ -17,7 +20,9 @@ def track_insight(pk: int, address: str) -> Insight:
         if created:
             visitor.full_clean()
 
-        return Insight.objects.create(link=link, visitor=visitor)
+        insight = Insight.objects.create(link=link, visitor=visitor)
+        return insight.id
     except (DataError, IntegrityError, InternalError, ValidationError) as e:
         # If validation error occurs (IP address is invalid) just skip this
-        return Insight.objects.create(link=link)
+        insight = Insight.objects.create(link=link)
+        return insight.pk

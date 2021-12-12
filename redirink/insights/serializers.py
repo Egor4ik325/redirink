@@ -10,5 +10,5 @@ class InsightSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Insight
-        fields = ["visitor_id", "time"]
+        fields = ["link", "visitor_id", "time"]
         extra_kwargs = {}

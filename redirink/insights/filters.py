@@ -10,4 +10,8 @@ class InsightFilter(filters.FilterSet):
 
     class Meta:
         model = Insight
-        fields = ["link", "visitor", "time"]
+        fields = {
+            "link": ["exact"],
+            "visitor": ["exact"],
+            "time": ["gt", "lt", "year", "month", "week", "day", "hour"],
+        }

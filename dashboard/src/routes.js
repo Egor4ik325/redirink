@@ -4,6 +4,7 @@ export const Routes = {
   DashboardOverview: { path: "/dashboard/overview" },
   Transactions: { path: "/transactions" },
   Links: { path: "/links" },
+  Insights: { path: "/insights" },
   Settings: { path: "/settings" },
   // Upgrade: { path: "/upgrade" },
   BootstrapTables: { path: "/tables/bootstrap-tables" },

@@ -22,6 +22,13 @@ try {
   const links = await client.getLinks();
   console.log("Links:");
   links.results.forEach((link) => console.log(link));
+
+  const insights = await client.getInsights();
+  console.log("Insights:");
+  console.log("Count: ", insights.count);
+  for (const insight of insights.results) {
+    console.log(insight);
+  }
 } catch (error) {
   console.log(error.message);
 }
