@@ -31,8 +31,10 @@ The idea and technology is similar to the **Bit.ly** service:
 - Setup React.js JS library (more convenient)
 
 - Dashboard (interface template)
-  
+
   - customize template (Volt React Dashboard)
+
+- Periodic Celery email report
 
 - Setup AWS (production)
 
@@ -40,11 +42,13 @@ The idea and technology is similar to the **Bit.ly** service:
 
 - [x] Authentication interface (47 week)
 
-- [ ] Link CRUD interface
+- [x] Link CRUD interface
 
-- [-] Insights API
+- [x] Insights API
 
-- [ ] Insights interface
+- [x] Insights interface
+
+- [ ] Weekly insights report
 
 - [ ] Production
 
@@ -73,39 +77,39 @@ Database (API recourses):
 API (server interface):
 
 - authentication (login, logout, register, password, etc.)
-  
+
   - `/api/auth/login/`
-  
+
   - `/api/auth/{method}/`
 
 - Link CRUD API (create, retrieve, update, delete):
-  
+
   - OPTIONS/GET/POST/PUT/PATCH `/api/links/`
 
 - insight (read, list, filter):
-  
+
   - `/api/insights/`
 
 - Redirecting (by server MVT or SPA)
-  
+
   - `/<link_uid_regex>/`
 
 - Analytics (count insights - Celery Task):
-  
+
   - `/<link_uid_regex/`
 
 Frontend:
 
 - authentication
-  
+
   - `/login`
-  
+
   - `/logout`
-  
+
   - `/signup`
 
 - links
-  
+
   - GET `/{link_uid_regex}` - redirect to the original URL
 
 ## Links
@@ -113,7 +117,7 @@ Frontend:
 Links should be available only for users:
 
 - authenticated is required for all operation (there will be a separate view for redirecting/viewing/following link
-  
+
   - owner is required for detail endpoints (retrieve, update, delete)
   - list is filtered for the current user (not all links)
 
@@ -158,13 +162,13 @@ The user can sign in and up using SPA interface.
 - sign in/up requests will be in the different file/class/methods
 
 - sign in/up can fail or be successful:
-  
+
   1. User will be redirected to the dashboard page (react router DOM). State and form will be cleared (DOM removed)
-  
+
   2. Form will be filled with errors or error notification will be displayed
 
 - When user is not authenticated it can not access certain routes and will be redirected to the sign in/up pages (authorization)
-  
+
   - conditional URL routing and page rendering
 
 Frontend authorization:
@@ -235,5 +239,19 @@ API interaction design:
 - `/api/insights/?link=...` - insights for specific link
 
 - `/api/insights/?time=2021-12-09` - get insights for today (filter by any date and time). It should work in decreasing order (by year, by year and month, by year, month and day, and so on to: filtering by year, month, day, hour, minute, second).
-  
+
   - 2021, 2021-12, 2021-12-09, 2021-12-6T20, 2021-12-6T20:54, 2021-12-6T20:54:30
+
+## Report
+
+Weekly report contains information about the insight activity on all links.
+
+- send via email at 00:00 every Monday (in format of "on 51-th week" or "from ")
+
+- number of total insights previous week
+
+- HTML email body + some CSS styling
+
+- simple bar plot for insights over the week
+
+- insight chart image (static media file png) or dynamic chart creation API endpoint (`/chars/...`)

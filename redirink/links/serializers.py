@@ -14,7 +14,7 @@ class LinkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Link
-        fields = ["pk", "user", "to_url", "create_time", "from_url"]
+        fields = ["pk", "from_url", "to_url", "create_time", "user"]
         extra_kwargs = {
             "pk": {"read_only": True},
             "create_time": {"read_only": True},

@@ -3,6 +3,7 @@ import rest_framework
 from rest_framework.test import APIRequestFactory, force_authenticate
 
 from redirink.conftest import link
+from redirink.insights.filters import InsightFilter
 
 pytestmark = pytest.mark.django_db
 
@@ -55,6 +56,7 @@ def test_list_filtered_for_user(rq, user, token):
 
 
 def test_filter_insight_list_by_visitor_id(rq, user, token, visitor):
+    """Get the visitor's insights for all user links"""
     InsightFactory.create_batch(5, link__user=user)
     InsightFactory.create_batch(5, link__user=user, visitor=visitor)
 

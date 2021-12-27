@@ -1,0 +1,3 @@
+Hello, {{ user }}! This is our end-of-week insight report.
+
+Total number of insights previous week: {{ insight_count }}.
