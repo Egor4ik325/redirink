@@ -31,7 +31,7 @@ certificatesResolvers:
 http:
   routers:
     web-secure-router:
-      rule: "Host(`redirink.xyz`) || Host(`www.redirink.xyz`)"
+      rule: "Host(`lightsail.egorindev.tech`)"
       entryPoints:
         - web-secure
       middlewares:
@@ -42,7 +42,7 @@ http:
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: "Host(`redirink.xyz`)"
+      rule: "Host(`lightsail.egorindev.tech`)"
       entryPoints:
         - flower
       service: flower
