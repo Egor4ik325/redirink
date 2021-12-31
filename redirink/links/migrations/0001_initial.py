@@ -16,18 +16,40 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Link',
+            name="Link",
             fields=[
-                ('uuid', shortuuid.django_fields.ShortUUIDField(alphabet=None, length=8, max_length=8, prefix='', primary_key=True, serialize=False, verbose_name='Unique identifier')),
-                ('to_url', models.URLField(verbose_name='To URL')),
-                ('create_time', models.DateTimeField(auto_now_add=True, verbose_name='Create time')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='links', to=settings.AUTH_USER_MODEL, verbose_name='User')),
+                (
+                    "uuid",
+                    shortuuid.django_fields.ShortUUIDField(
+                        alphabet=None,
+                        length=8,
+                        max_length=8,
+                        prefix="",
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="Unique identifier",
+                    ),
+                ),
+                ("to_url", models.URLField(verbose_name="To URL")),
+                (
+                    "create_time",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Create time"),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="links",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="User",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Redirect link',
-                'verbose_name_plural': 'Redirect links',
-                'ordering': ['-create_time'],
-                'unique_together': {('user', 'to_url')},
+                "verbose_name": "Redirect link",
+                "verbose_name_plural": "Redirect links",
+                "ordering": ["-create_time"],
+                "unique_together": {("user", "to_url")},
             },
         ),
     ]

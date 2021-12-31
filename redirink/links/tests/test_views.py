@@ -26,7 +26,7 @@ def test_link_redirect_insight_created(settings, rq, link, faker):
     response = link_redirect_view(rq, link.pk)
 
     assert response.status_code == 301
-    assert Insight.objects.count() == 1
+    assert link.insights.count() == 1
     assert Insight.objects.filter(link=link).exists()
     assert Insight.objects.get(link=link).visitor.ip_address == address
 
