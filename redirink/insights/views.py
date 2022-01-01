@@ -26,8 +26,8 @@ class InsightListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     pagination_class = InsightPagination
     filter_backends = [DjangoFilterBackend]
     filterset_class = InsightFilter
-    search_fields = []
-    ordering_fields = []
+    # search_fields = []
+    # ordering_fields = []
 
     def get_queryset(self):
         return self.queryset.filter(link__user=self.request.user)

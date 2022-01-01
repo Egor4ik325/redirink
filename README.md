@@ -48,9 +48,13 @@ The idea and technology is similar to the **Bit.ly** service:
 
 - [x] Insights interface
 
-- [ ] Weekly insights report
+- [x] Weekly insights report
 
-- [ ] Production
+- [x] Production
+
+- [ ] Connect backend and frontend
+
+- [ ] Social authentication via token
 
 ## Design
 
@@ -255,3 +259,11 @@ Weekly report contains information about the insight activity on all links.
 - simple bar plot for insights over the week
 
 - insight chart image (static media file png) or dynamic chart creation API endpoint (`/chars/...`)
+
+
+## Dockerize React app
+
+React app consist of 2 packages:
+
+1. API client library
+2. Dashboard interface

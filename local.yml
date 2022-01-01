@@ -109,3 +109,21 @@ services:
       - "3000:3000"
       # Expose browsersync UI: https://www.browsersync.io/docs/options/#option-ui
       - "3001:3001"
+
+  # Client + dashboard
+  react:
+    build:
+      context: .
+      dockerfile: ./compose/local/react/Dockerfile
+    image: redirink_local_react
+    container_name: react
+    depends_on:
+      - django
+    volumes:
+      - ./dashboard:/app:z
+      - ./client:/app/client:z # keen client in seperate shared volume
+      - /app/node_modules # don't overried installed modules
+    command: npm start 0.0.0.0:3000
+    ports:
+      - "3000:3000"
+      - "3001:3001"

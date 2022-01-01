@@ -288,9 +288,9 @@ CELERY_TASK_SOFT_TIME_LIMIT = 60
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_BEAT_SCHEDULE = {
     "weekly_report": {
-        "task": "redirink.reports.tasks.send_bulk_report",
-        # "schedule": crontab(day_of_week=1, hour=0, minute=0),  # Every monday at 00:00
-        "schedule": crontab(minute="*/1"),
+        "task": "redirink.reports.tasks.send_bulk_insight_report",
+        "schedule": crontab(day_of_week=1, hour=0, minute=0),  # Every monday at 00:00
+        # "schedule": crontab(minute="*/1"),
     }
 }
 
