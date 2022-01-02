@@ -19,10 +19,16 @@ services:
     env_file:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
-    ports:
-      - "8000:8000"
-      - "5000:5000" # debug server for VS Code
+    expose:
+      - 8000
+      - 5000 # debug server for VS Code
     command: /start
+    labels:
+      - traefik.enable=true
+      # - traefik.http.routers.django.rule=Host(`django`)
+      - traefik.http.routers.django.rule=PathPrefix(`/api`)
+      - traefik.http.routers.django.entryPoints=web # :80/:443 entrypoints
+      - traefik.http.services.django.loadbalancer.server.port=8000
 
   postgres:
     build:
@@ -53,10 +59,14 @@ services:
     command: /start-docs
 
   mailhog:
-    image: mailhog/mailhog:v1.0.0
+    image: mailhog/mailhog:v1.0.1
     container_name: mailhog
-    ports:
-      - "8025:8025"
+    # Note: mailhog image exposes 8025 by default
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.mailhog.rule=PathPrefix(`/`)
+      - traefik.http.routers.mailhog.entryPoints=mailhog
+      # - traefik.http.routers.mailhog.rule=Host(`mailhog`) # Set Host header value to mailhog:80 on http://localhost:80
 
   redis:
     image: redis:6
@@ -124,6 +134,27 @@ services:
       - ./client:/app/client:z # keen client in seperate shared volume
       - /app/node_modules # don't overried installed modules
     command: npm start 0.0.0.0:3000
+    expose:
+      - 3000
+      - 3001
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.react.rule=PathPrefix(`/`)
+      - traefik.http.routers.react.entryPoints=web
+      - traefik.http.services.react.loadbalancer.server.port=3000
+
+  traefik:
+    build:
+      context: .
+      dockerfile: ./compose/local/traefik/Dockerfile
+    image: redirink_local_traefik
+    container_name: traefik
+    volumes:
+      - ./compose/local/traefik/traefik.yml:/etc/traefik/traefik.yml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
-      - "3000:3000"
-      - "3001:3001"
+      - "0.0.0.0:80:80" # http
+      - "443:443" # https
+      - "8080:8080" # dashboard
+      - "8025:8025" # mailhog
+      # - "5555:5555" # flower

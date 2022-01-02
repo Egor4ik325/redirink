@@ -1,0 +1,32 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+log:
+  level: DEBUG
+
+api:
+  dashboard: true
+  insecure: true
+
+entrypoints:
+  # Entry point for the main web application
+  web:
+    address: ":80" # 0.0.0.0:80, localhost:80 or any IP to this machine on port 80
+
+  websecure:
+    address: ":443"
+
+  mailhog:
+    address: :8025 # http/https
+
+## Routers and services are set in the docker provider
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    watch: true
+    exposedByDefault: false
+  file:
+    directory: /etc/traefik
+    watch: true

@@ -267,3 +267,16 @@ React app consist of 2 packages:
 
 1. API client library
 2. Dashboard interface
+
+
+## Traefik
+
+To add service and connect to it following steps:
+
+1. Process inside service should be running on port 1234
+2. Container should expose port 1234
+3. Traefik should connect container to entrypoint 1234
+4. Traeifk container should forward port 1234
+5. VS Code Server should forward port 1234 (over SSH)
+6. VS Code client should forward port 1234 for localhost over HTTP
+7. Firefox should be connected to http://localhost:1234 with Host: localhost

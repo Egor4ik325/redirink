@@ -6,8 +6,8 @@ COPY ./dashboard/package.json ./package.json
 COPY ./client/package.json ./client/package.json
 
 # Change permissions for node_modules
-RUN mkdir -p /app/node_modules
-RUN chown node /app/node_modules
+RUN mkdir -p /app/node_modules/.cache
+RUN chown node /app/node_modules/.cache
 
 RUN npm install --force && npm cache clean --force
 
