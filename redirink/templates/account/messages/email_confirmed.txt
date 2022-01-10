@@ -1,0 +1,5 @@
+{% load i18n %}
+{% blocktrans %}
+    You have confirmed {{email}}.
+    Now you can go back to your frontend page and login (if you haven't been yet).
+{% endblocktrans %}

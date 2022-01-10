@@ -307,6 +307,8 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_ADAPTER = "redirink.users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = "redirink.users.adapters.SocialAccountAdapter"
+# After email confirmation redirect user to the mail page of whatever frontend + show message
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/"  # home
 
 # django-rest-framework
 # -------------------------------------------------------------------------------

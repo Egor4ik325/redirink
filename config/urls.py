@@ -6,32 +6,47 @@ from django.urls import include, path, re_path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 
-# MVT URLs
+# MVT URLs (template pages, admin, static files, email confirmation)
 urlpatterns = [
+    # Template server pages
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     path(
         "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
     ),
-    # Django Admin, use {% url 'admin:index' %}
-    path(settings.ADMIN_URL, admin.site.urls),
-    # User management
+    # User and account management
     path("users/", include("redirink.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
-    # Your stuff: custom urls includes go here
+    # Django Admin, use {% url 'admin:index' %}
+    path(settings.ADMIN_URL, admin.site.urls),
+    # /static files while development
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API URLs
 urlpatterns += [
     # API base url
     path("api/", include("config.api_router")),
-    # DRF/allauth token endpoints
+    # DRF token auth + allauth account management endpoints
+    path("api/auth/", include("dj_rest_auth.urls")),
+    path("api/auth/signup/", include("dj_rest_auth.registration.urls")),
+]
+
+# Override urls
+urlpatterns += [
+    # Email confirmation
+    # - this url will be included into confirmation email (reversed url_name)
+    # - email confirmation will be handled directly by the server
+    # - then user can login via any frontend
     re_path(
-        r"^auth/signup/account-confirm-email/(?P<key>.+)/$",
+        r"^auth/email/confirm/(?P<key>[-:\w]+)/$",
         confirm_email,
         name="account_confirm_email",
     ),
-    path("auth/", include("dj_rest_auth.urls")),
-    path("auth/signup/", include("dj_rest_auth.registration.urls")),
+    # For API-based email confirmation (will not be used)
+    path(
+        "api/auth/signup/email/verify/",
+        lambda: None,  # type: ignore
+        name="account_email_verification_sent",
+    ),
 ]
 
 # Debug URLs
@@ -63,5 +78,6 @@ if settings.DEBUG:
 
 # Generic URLs
 urlpatterns += [
+    # Capture short URL links
     path("", include("redirink.links.urls", namespace="links")),
 ]

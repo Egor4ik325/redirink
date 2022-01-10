@@ -14,6 +14,7 @@ services:
     depends_on:
       - postgres
       - mailhog
+      - traefik
     volumes:
       - .:/app:z
     env_file:
@@ -26,7 +27,14 @@ services:
     labels:
       - traefik.enable=true
       # - traefik.http.routers.django.rule=Host(`django`)
-      - traefik.http.routers.django.rule=PathPrefix(`/api`)
+      # TODO: regex pattern for short ULRs matching
+      # Server: api, static files, admin, auth
+      - >
+        traefik.http.routers.django.rule=
+        PathPrefix(`/api`) ||
+        PathPrefix(`/static`) ||
+        PathPrefix(`/admin`) ||
+        PathPrefix(`/auth`)
       - traefik.http.routers.django.entryPoints=web # :80/:443 entrypoints
       - traefik.http.services.django.loadbalancer.server.port=8000
 
@@ -35,7 +43,7 @@ services:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
     image: redirink_production_postgres
-    container_name: postgres
+    container_name: redirink_postgres
     volumes:
       - local_postgres_data:/var/lib/postgresql/data:Z
       - local_postgres_data_backups:/backups:z
@@ -59,7 +67,7 @@ services:
     command: /start-docs
 
   mailhog:
-    image: mailhog/mailhog:v1.0.1
+    image: mailhog/mailhog:v1.0.0
     container_name: mailhog
     # Note: mailhog image exposes 8025 by default
     labels:
@@ -153,8 +161,8 @@ services:
       - ./compose/local/traefik/traefik.yml:/etc/traefik/traefik.yml
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
-      - "0.0.0.0:80:80" # http
+      - "0.0.0.0:8888:80" # http
       - "443:443" # https
-      - "8080:8080" # dashboard
+      - "8088:8080" # dashboard
       - "8025:8025" # mailhog
       # - "5555:5555" # flower
