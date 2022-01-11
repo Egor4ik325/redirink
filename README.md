@@ -260,14 +260,12 @@ Weekly report contains information about the insight activity on all links.
 
 - insight chart image (static media file png) or dynamic chart creation API endpoint (`/chars/...`)
 
-
 ## Dockerize React app
 
 React app consist of 2 packages:
 
 1. API client library
 2. Dashboard interface
-
 
 ## Traefik
 
@@ -280,3 +278,21 @@ To add service and connect to it following steps:
 5. VS Code Server should forward port 1234 (over SSH)
 6. VS Code client should forward port 1234 for localhost over HTTP
 7. Firefox should be connected to http://localhost:1234 with Host: localhost
+
+## Telegram bot
+
+Redirink telegram bot will provide functionality to:
+
+- welcome and help information (about commands)
+- auto-authenticate using Telegram username
+- create, list, update and delete links
+- view insights
+
+Additionally:
+
+- render insights charts (send images)
+
+Features:
+
+- to interact with Telegram bot api 3rd-party library will be used (instead of hand-crafted)
+- bot will process all Telegram requests (queried updated) synchronously (neither asynchronously which will require asynchronous API client nor using task queue)
