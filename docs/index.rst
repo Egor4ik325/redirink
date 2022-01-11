@@ -12,6 +12,7 @@ Welcome to Redirink's documentation!
 
    howto
    users
+   api
 
 
 

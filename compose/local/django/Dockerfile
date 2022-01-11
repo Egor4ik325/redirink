@@ -1,3 +1,4 @@
+# slim debian ~ alpine
 ARG PYTHON_VERSION=3.9-slim-bullseye
 
 # define an alias for the specfic python version used in this file.
@@ -106,6 +107,7 @@ COPY ./compose/local/django/celery/worker/start /start-celeryworker
 COPY ./compose/local/django/celery/beat/start /start-celerybeat
 COPY ./compose/local/django/celery/flower/start /start-flower
 
+# Remove \r from \r\n line breaks (Windows)
 RUN sed -i 's/\r$//g' /entrypoint
 RUN sed -i 's/\r$//g' /start
 RUN sed -i 's/\r$//g' /start-celeryworker
