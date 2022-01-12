@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleLeft,
@@ -31,6 +31,16 @@ import ApiClient from "../../api";
 const Signin = ({ setToken, ...props }) => {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
+  const [googleUrl, setGoogleUrl] = useState(null);
+
+  useEffect(() => {
+    const fetchGoogleUrl = async () => {
+      const url = await ApiClient.getRedirectGoogle();
+      console.log("Redirect url: ", url);
+      setGoogleUrl(url);
+    };
+    fetchGoogleUrl();
+  }, []);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -56,6 +66,10 @@ const Signin = ({ setToken, ...props }) => {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleSigninGoogle = (e) => {
+    window.location.href = googleUrl;
   };
 
   return (
@@ -151,6 +165,14 @@ const Signin = ({ setToken, ...props }) => {
                     </Card.Link>
                   </span>
                 </div>
+
+                {googleUrl && (
+                  <div>
+                    <Button color="white" onClick={handleSigninGoogle}>
+                      Sign in with Google
+                    </Button>
+                  </div>
+                )}
               </div>
             </Col>
           </Row>

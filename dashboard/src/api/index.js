@@ -6,6 +6,7 @@
 import ApiClientLocalStorage from "./client.js";
 export { default } from "./client.js";
 export { TokenIsNull } from "./exceptions.js";
+export { ApiClientLocalStorage };
 
 // API client singleton (functions packed in the class) object
 export const client = new ApiClientLocalStorage();

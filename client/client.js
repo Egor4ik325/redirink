@@ -28,6 +28,37 @@ class RedirinkApiClient {
     }
   }
 
+  // Sign-in with Google OAuth code (return token or error)
+  static async signinGoogle({ code }) {
+    try {
+      const response = await axios.post(Endpoints.signinGoogle, { code });
+      return response.data.key;
+    } catch (error) {
+      // If error is related to the API response
+      if (error.response) {
+        // Errors related to the obtaining access token using code (invalid or expired)
+        throw new ApiClientError(
+          `Google authenticated failed: ${error.response.detail}`
+        );
+      }
+
+      throw error;
+    }
+  }
+
+  // Get redirect url for authorizing with Google
+  static async getRedirectGoogle() {
+    try {
+      const response = await axios.get(Endpoints.redirectGoogle);
+      return response.data.redirect_url;
+    } catch (error) {
+      // should not be any API errors
+
+      // Reraise error
+      throw error;
+    }
+  }
+
   static signup(email, password, username) {}
 
   static verifyEmail() {}

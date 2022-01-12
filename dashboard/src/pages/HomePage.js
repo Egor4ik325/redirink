@@ -18,6 +18,7 @@ import NotFoundPage from "./examples/NotFound";
 import ServerError from "./examples/ServerError";
 import Links from "./Links";
 import Insights from "./Insights";
+import GoogleCallback from "./GoogleCallback";
 
 // documentation pages
 import DocsOverview from "./documentation/DocsOverview";
@@ -210,6 +211,11 @@ const HomePage = () => {
           component={ResetPassword}
         />
         <RouteWithLoader exact path={Routes.Lock.path} component={Lock} />
+        <RouteWithLoader
+          exact
+          path={Routes.GoogleCallback.path}
+          component={() => <GoogleCallback setToken={setToken} />}
+        />
 
         <Redirect to={Routes.Signin.path} />
       </Switch>

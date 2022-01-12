@@ -56,7 +56,7 @@ The idea and technology is similar to the **Bit.ly** service:
 
 - [x] Connect backend and frontend (in dev)
 
-- [ ] Social authentication with token
+- [x] Social authentication with token
 
 - [ ] Write OpenAPI schema for custom view
 
