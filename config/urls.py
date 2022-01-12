@@ -6,6 +6,8 @@ from django.urls import include, path, re_path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 
+from redirink.authentication.views import google_login_view, google_redirect_view
+
 # MVT URLs (template pages, admin, static files, email confirmation)
 urlpatterns = [
     # Template server pages
@@ -28,6 +30,10 @@ urlpatterns += [
     # DRF token auth + allauth account management endpoints
     path("api/auth/", include("dj_rest_auth.urls")),
     path("api/auth/signup/", include("dj_rest_auth.registration.urls")),
+    path("api/auth/signup/google/", google_login_view, name="google_login"),
+    path(
+        "api/auth/signup/google/redirect/", google_redirect_view, name="google_redirect"
+    ),
 ]
 
 # Override urls
@@ -46,6 +52,12 @@ urlpatterns += [
         "api/auth/signup/email/verify/",
         lambda: None,  # type: ignore
         name="account_email_verification_sent",
+    ),
+    # Override callback url for constructing redirect url (will be only reversed)
+    path(
+        settings.GOOGLE_OAUTH_CALLBACK_PATH,
+        lambda: None,  # type: ignore
+        name="google_callback",
     ),
 ]
 

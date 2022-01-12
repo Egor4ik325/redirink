@@ -50,11 +50,27 @@ The idea and technology is similar to the **Bit.ly** service:
 
 - [x] Weekly insights report
 
-- [x] Production
+- [x] Production deployment
 
-- [ ] Connect backend and frontend
+- [x] Setup traefik reverse proxy
 
-- [ ] Social authentication via token
+- [x] Connect backend and frontend (in dev)
+
+- [ ] Social authentication with token
+
+- [ ] Write OpenAPI schema for custom view
+
+- [ ] Configure react build
+
+- [ ] Autobuild and serve frontend from S3
+
+- [ ] Telegram bot alternative UI
+
+- [ ] Generate insight charts
+
+- [ ] Document telegram bot usage (docs)
+
+- [ ] Add frontend linting step to CI
 
 ## Design
 

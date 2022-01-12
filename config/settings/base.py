@@ -73,6 +73,7 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
     "django_celery_beat",  # periodic task + schedule database models
     "rest_framework",
     "rest_framework.authtoken",
@@ -108,6 +109,22 @@ AUTH_USER_MODEL = "users.User"
 LOGIN_REDIRECT_URL = "users:redirect"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "account_login"
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APP": {
+            "client_id": env("GOOGLE_OAUTH_CLIENT_ID"),
+            "secret": env("GOOGLE_OAUTH_CLIENT_SECRET"),
+            "key": "",
+        }
+    }
+}
+# Callback will be handled by the react app
+GOOGLE_OAUTH_CALLBACK_URL = env(
+    "GOOGLE_OAUTH_CALLBACK_URL", default="http://localhost:9000/google/callback"
+)
+GOOGLE_OAUTH_CALLBACK_PATH = env(
+    "GOOGLE_OAUTH_CALLBACK_PATH", default="google/callback"
+)
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -300,6 +317,7 @@ ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_AUTHENTICATION_METHOD = "username"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
+# email will be included in the scope parameter when socially authorizing
 ACCOUNT_EMAIL_REQUIRED = True
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"

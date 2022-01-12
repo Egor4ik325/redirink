@@ -20,21 +20,21 @@ services:
     env_file:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
+      - ./.envs/.secret
     expose:
       - 8000
       - 5000 # debug server for VS Code
-    command: /start
+    command: python manage.py runserver 0.0.0.0:8000
     labels:
       - traefik.enable=true
       # - traefik.http.routers.django.rule=Host(`django`)
       # TODO: regex pattern for short ULRs matching
-      # Server: api, static files, admin, auth
+      # Server: api, static files, admin
       - >
         traefik.http.routers.django.rule=
         PathPrefix(`/api`) ||
-        PathPrefix(`/static`) ||
-        PathPrefix(`/admin`) ||
-        PathPrefix(`/auth`)
+        PathPrefix(`/static`) || PathPrefix(`/media`) ||
+        PathPrefix(`/admin`)
       - traefik.http.routers.django.entryPoints=web # :80/:443 entrypoints
       - traefik.http.services.django.loadbalancer.server.port=8000
 
@@ -58,6 +58,7 @@ services:
       dockerfile: ./compose/local/docs/Dockerfile
     env_file:
       - ./.envs/.local/.django
+      - ./.envs/.secret
     volumes:
       - ./docs:/docs:z
       - ./config:/app/config:z
