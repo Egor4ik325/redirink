@@ -277,6 +277,6 @@ redirink/media/
 
 
 .ipython/
-.env
+# .env
 .envs/*
 !.envs/.local/

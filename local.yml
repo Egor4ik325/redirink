@@ -152,6 +152,10 @@ services:
       - traefik.http.routers.react.entryPoints=web
       - traefik.http.services.react.loadbalancer.server.port=3000
 
+  # Build react static files
+  # reactbuild:
+  # TODO
+
   traefik:
     build:
       context: .
@@ -170,12 +174,12 @@ services:
 
   telegram:
     build:
-     context: .
-     dockerfile: ./compose/local/telegram/Dockerfile
+      context: .
+      dockerfile: ./compose/local/telegram/Dockerfile
     image: redirink_local_telegram
     container_name: redirink_local_telegram
     volumes:
-     - ./telegram:/app
+      - ./telegram:/app
     env_file:
       - ./telegram/bot/.env
     command: /start
