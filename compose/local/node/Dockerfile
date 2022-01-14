@@ -1,3 +1,4 @@
+# Prepare everything for runtime building (npm run dev)
 FROM node:16-bullseye-slim
 
 WORKDIR /app

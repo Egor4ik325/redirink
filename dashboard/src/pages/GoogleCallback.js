@@ -9,7 +9,7 @@ const GoogleCallback = ({ setToken, ...props }) => {
   const query = useQuery();
   const [error, setError] = useState(null);
   // Only code is needed for authentication
-  const code = query.get("code");
+  const code = query.get("code") ?? null;
 
   useEffect(() => {
     const authenticate = async () => {

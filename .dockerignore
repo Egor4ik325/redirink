@@ -1,3 +1,4 @@
+# Files not send with docker build (when COPY)
 .editorconfig
 .gitattributes
 .github

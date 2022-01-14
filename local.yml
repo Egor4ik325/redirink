@@ -29,11 +29,12 @@ services:
       - traefik.enable=true
       # - traefik.http.routers.django.rule=Host(`django`)
       # TODO: regex pattern for short ULRs matching
-      # Server: api, static files, admin
+      # Server: api, static files (doesn't work with react), admin
       - >
         traefik.http.routers.django.rule=
         PathPrefix(`/api`) ||
-        PathPrefix(`/static`) || PathPrefix(`/media`) ||
+        PathPrefix(`/static`) ||
+        PathPrefix(`/media`) ||
         PathPrefix(`/admin`)
       - traefik.http.routers.django.entryPoints=web # :80/:443 entrypoints
       - traefik.http.services.django.loadbalancer.server.port=8000
@@ -139,22 +140,19 @@ services:
     depends_on:
       - django
     volumes:
+      - /app/node_modules # don't override installed modules
+      - ./client:/app/client:z # keen client in separate shared volume
       - ./dashboard:/app:z
-      - ./client:/app/client:z # keen client in seperate shared volume
-      - /app/node_modules # don't overried installed modules
     command: npm start 0.0.0.0:3000
     expose:
       - 3000
       - 3001
     labels:
       - traefik.enable=true
+      # react needs /static prefix for serving webpack build files (dev built)
       - traefik.http.routers.react.rule=PathPrefix(`/`)
       - traefik.http.routers.react.entryPoints=web
       - traefik.http.services.react.loadbalancer.server.port=3000
-
-  # Build react static files
-  # reactbuild:
-  # TODO
 
   traefik:
     build:
@@ -183,3 +181,47 @@ services:
     env_file:
       - ./telegram/bot/.env
     command: /start
+
+  # Same as django but without separate running react container
+  djangobuild:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: redirink_local_django
+    container_name: django
+    depends_on:
+      - traefik
+      - postgres
+      - mailhog
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+      - ./.envs/.secret
+    volumes:
+      - .:/app:z
+    expose:
+      - 8000
+      - 5000 # debug server for VS Code
+    command: python manage.py runserver 0.0.0.0:8000
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.django.rule=PathPrefix(`/`) # forward all paths to Django
+      - traefik.http.routers.django.entryPoints=web
+      - traefik.http.services.django.loadbalancer.server.port=8000
+
+  # Build (compile and bundle) react project into static files
+  reactbuild:
+    build:
+      context: .
+      dockerfile: ./compose/local/react/Dockerfile
+    image: redirink_local_react
+    container_name: react
+    command: /build.sh
+    volumes:
+      - /app/node_modules
+      # Share build files with the Django container
+      - ./redirink/react/templates/:/app/templates/
+      - ./redirink/react/static/:/app/static/
+      # Sync source code with VS Code
+      - ./dashboard:/app:z
+      - ./client:/app/client:z

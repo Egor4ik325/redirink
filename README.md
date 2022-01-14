@@ -22,6 +22,16 @@ The idea and technology is similar to the **Bit.ly** service:
 
 - identification
 
+## Setup project
+
+```sh
+# To build react for serving by djangobuild container
+docker compose -f local.yml up reactbuild
+
+# Then
+docker compose -f local.yml up djangobuild
+```
+
 ## Roadmap
 
 - Links
@@ -60,7 +70,7 @@ The idea and technology is similar to the **Bit.ly** service:
 
 - [ ] Write OpenAPI schema for custom view
 
-- [ ] Configure react build
+- [x] Configure react build
 
 - [ ] Autobuild and serve frontend from S3
 
@@ -71,6 +81,8 @@ The idea and technology is similar to the **Bit.ly** service:
 - [ ] Document telegram bot usage (docs)
 
 - [ ] Add frontend linting step to CI
+
+- [ ] Redeploy in production
 
 ## Design
 

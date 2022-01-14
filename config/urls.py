@@ -11,16 +11,14 @@ from redirink.authentication.views import google_login_view, google_redirect_vie
 # MVT URLs (template pages, admin, static files, email confirmation)
 urlpatterns = [
     # Template server pages
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
-    path(
-        "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
-    ),
+    # path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    # path("about/", TemplateView.as_view(template_name="pages/about.html"), name="about"),
     # User and account management
     path("users/", include("redirink.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
-    # /static files while development
+    # Static files while development under /static URL
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # API URLs
@@ -43,7 +41,7 @@ urlpatterns += [
     # - email confirmation will be handled directly by the server
     # - then user can login via any frontend
     re_path(
-        r"^auth/email/confirm/(?P<key>[-:\w]+)/$",
+        r"^api/auth/email/confirm/(?P<key>[-:\w]+)/$",
         confirm_email,
         name="account_confirm_email",
     ),
@@ -52,12 +50,6 @@ urlpatterns += [
         "api/auth/signup/email/verify/",
         lambda: None,  # type: ignore
         name="account_email_verification_sent",
-    ),
-    # Override callback url for constructing redirect url (will be only reversed)
-    path(
-        settings.GOOGLE_OAUTH_CALLBACK_PATH,
-        lambda: None,  # type: ignore
-        name="google_callback",
     ),
 ]
 
@@ -92,4 +84,19 @@ if settings.DEBUG:
 urlpatterns += [
     # Capture short URL links
     path("", include("redirink.links.urls", namespace="links")),
+]
+
+# Frontend (react-router) URLs
+urlpatterns += [
+    re_path(".*", TemplateView.as_view(template_name="index.html"), name="react"),
+]
+
+# MVT URLs only for reversing (mapping url_name to path)
+urlpatterns += [
+    # Override callback url for constructing redirect url (will be only reversed)
+    path(
+        settings.GOOGLE_OAUTH_CALLBACK_PATH,
+        lambda: None,  # type: ignore
+        name="google_callback",
+    ),
 ]
